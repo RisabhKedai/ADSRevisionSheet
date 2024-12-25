@@ -53,7 +53,8 @@ function getConfigValues() {
 }
 
 function generateRevision() {
-  
+  const NOTES_COLUMN = 18;
+
   const { Number_of_problems: numberOfProblems } = getConfigValues();
   N = numberOfProblems;
   const dataSheet =
@@ -117,6 +118,24 @@ function generateRevision() {
       .copyTo(revisionSheet.getRange(index + 3, 1)); // +3 to paste below headers
   });
 
+  // Rename Notes column to Hint
+  const notesColumnIndex = headers[0].indexOf("NOTES");
+  if (notesColumnIndex !== -1) {
+    revisionSheet.getRange(1, notesColumnIndex + 1).setValue("HINT");
+
+    // For each selected row, set the note as a tooltip in the HINT column
+    selectedRows.forEach((row, index) => {
+      const noteCell = revisionSheet.getRange(index + 3, notesColumnIndex + 1);
+      const noteValue = row[notesColumnIndex];
+      if (noteValue) {
+        noteCell.clearContent();
+        noteCell.setNote(noteValue);
+        noteCell.setValue("ℹ️");
+        noteCell.setHorizontalAlignment("center");
+      }
+    });
+  }
+
   // Clear columns G to K
   const firstColIndex = revisionSheet.getRange("G1").getColumn(); // G
   const lastColIndex1 = revisionSheet.getRange("K1").getColumn(); // K
@@ -152,7 +171,6 @@ function generateRevision() {
 
   revisionSheet.hideColumns(12, 2);
   revisionSheet.hideColumns(15);
-
 
   updateStateAndNotify(
     "generated",
@@ -285,7 +303,11 @@ function clearActiveRevision() {
     // Only clear if there's data beyond header row
     revisionSheet
       .getRange(3, 1, lastRow - 1, revisionSheet.getLastColumn())
-      .clear({ contentsOnly: true, validationsOnly: true });
+      .clear({
+        contentsOnly: true,
+        validationsOnly: true,
+      })
+      .clearNote();
   }
   updateStateAndNotify(
     "idle",
