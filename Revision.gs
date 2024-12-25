@@ -3,6 +3,23 @@ let N;
 // Add these constants at the top of the file
 const FIRST_COLUMN_TO_CLEAR = "G"; // Time Complexity
 const LAST_COLUMN_TO_CLEAR = "N"; // Other metadata
+const REVISION_HISTORY_SHEET = "Revision History";
+const HISTORY_HEADERS = [
+  "REVISION ID",
+  "DATE",
+  "NO. ATTEMPTED",
+  "TOTAL TIME (mins)",
+  "AVERAGE TIME",
+  "PROBLEM IDs",
+  "TOPICS COVERED",
+  "DIFFICULTY DIST",
+  "MIN TIME",
+  "MAX TTIME",
+  "NOTES",
+];
+
+// Define BASE_DATE with UTC to avoid timezone issues
+const BASE_DATE = new Date(Date.UTC(1899, 11, 30, 0, 0, 0)); // Note: month is 0-based, so 11 = December
 
 function onOpen() {
   updateMenu(); // Build the menu dynamically based on the current state
@@ -286,6 +303,8 @@ function endRevision() {
     });
   });
 
+  // Log the revision history
+  logRevisionHistory();
   updateStateAndNotify("ended", "Revision ended successfully!", "End Revision");
 }
 
@@ -316,7 +335,6 @@ function clearActiveRevision() {
   );
 }
 
-// Select the top `numberOfProblems` visible rows
 function getVisibleSelectedRows(filteredRows, numberOfProblems, dataSheet) {
   const selectedRows = [];
   let count = 0;
@@ -329,4 +347,144 @@ function getVisibleSelectedRows(filteredRows, numberOfProblems, dataSheet) {
   }
 
   return selectedRows;
+}
+
+function createRevisionHistorySheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let historySheet = ss.getSheetByName(REVISION_HISTORY_SHEET);
+
+  if (!historySheet) {
+    historySheet = ss.insertSheet(REVISION_HISTORY_SHEET);
+  }
+  historySheet
+    .getRange(1, 1, 1, HISTORY_HEADERS.length)
+    .setValues([HISTORY_HEADERS])
+    .setFontWeight("bold");
+
+  // Set column widths for better readability
+  // historySheet.setColumnWidth(1, 150); // Revision ID
+  // historySheet.setColumnWidth(2, 100); // Date
+  // historySheet.setColumnWidth(6, 200); // Problem IDs
+  // historySheet.setColumnWidth(7, 200); // Topics
+  // historySheet.setColumnWidth(11, 250); // Notes
+  return historySheet;
+}
+
+function getTimeInMillis(dateTime) {
+  if (!dateTime) return 0;
+
+  // Convert input date to UTC for consistent comparison
+  const date = new Date(dateTime);
+  const currDate = Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds()
+  );
+  // console.log("time", BASE_DATE.getTime(), currDate, BASE_DATE);
+
+  return currDate - BASE_DATE.getTime();
+}
+
+function formatMillisToTime(millis) {
+  const totalSeconds = Math.floor(millis / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}:${String(seconds).padStart(2, "0")}`;
+}
+
+function logRevisionHistory() {
+  const revisionSheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Revision");
+  const historySheet = createRevisionHistorySheet();
+
+  // Get revision data (skip header rows)
+  const revisionData = revisionSheet.getDataRange().getValues();
+  const problems = revisionData.slice(2).filter((row) => row[0]); // Filter non-empty rows
+
+  // Find column indices from headers
+  const revisionHeaders = revisionData[0];
+
+  const timeColIndex = revisionHeaders.indexOf("TIME TAKEN (in minutes)");
+  const ownTagsColIndex = revisionHeaders.indexOf("OWN TAGS SOLVED");
+  const referredTagsColIndex = revisionHeaders.indexOf("REFERRED TAGS");
+  const difficultyColIndex = revisionHeaders.indexOf("DIFFICULTY");
+  const problemIdColIndex = revisionHeaders.indexOf("SL NO.");
+
+  // Calculate metrics
+  const times = problems
+    .map((row) => row[timeColIndex])
+    .filter(Boolean)
+    .map(getTimeInMillis);
+
+  const totalMillis = times.reduce((sum, time) => sum + time, 0);
+  const minMillis = Math.min(...times);
+  const maxMillis = Math.max(...times);
+  const avgMillis = Math.floor(totalMillis / times.length);
+
+  const totalTime = formatMillisToTime(totalMillis);
+  const avgTime = formatMillisToTime(avgMillis);
+  const minTime = formatMillisToTime(minMillis);
+  const maxTime = formatMillisToTime(maxMillis);
+
+  // Get unique topics from both tag columns
+  const topics = [
+    ...new Set(
+      [
+        ...problems.map((row) => row[ownTagsColIndex]).filter(Boolean),
+        ...problems.map((row) => row[referredTagsColIndex]).filter(Boolean),
+      ].flatMap((tags) => tags.split(",").map((tag) => tag.trim()))
+    ),
+  ];
+
+  // Count difficulties
+  const difficultyCount = problems.reduce((acc, row) => {
+    const difficulty = row[difficultyColIndex];
+    if (difficulty) {
+      acc[difficulty] = (acc[difficulty] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
+  const difficultyDistribution = Object.entries(difficultyCount)
+    .map(([diff, count]) => `${diff}: ${count}`)
+    .join(", ");
+
+  // Get the last row number to generate the next ID
+  const lastRow = historySheet.getLastRow();
+  const nextId = lastRow > 1 ? lastRow - 1 + 1 : 1;
+
+  // Get the sheet ID for Solved Problems sheet
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const solvedProblemsSheet = ss.getSheetByName("Solved Problems");
+  const sheetId = solvedProblemsSheet.getSheetId();
+
+  // Just use simple comma-separated problem IDs
+  const problemIds = problems.map((row) => row[problemIdColIndex]).join(", ");
+
+  // Create new history entry
+  const newEntry = [
+    nextId,
+    new Date(),
+    problems.length,
+    totalTime,
+    avgTime,
+    problemIds,
+    topics.join(", "),
+    difficultyDistribution,
+    minTime,
+    maxTime,
+    "",
+  ];
+
+  historySheet
+    .getRange(lastRow + 1, 1, 1, newEntry.length)
+    .setValues([newEntry]);
 }
