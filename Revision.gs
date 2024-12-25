@@ -189,7 +189,7 @@ function endRevision() {
   const ui = SpreadsheetApp.getUi();
   const response = ui.alert(
     "Tags Reminder",
-    "Please make sure to unveil and update the tags columns (Own Tags & Referred Tags) for each revised problem before syncing.\n\nClick OK to continue with sync.",
+    "Please make sure to unveil and update the tags columns (Own Tags & Referred Tags column K & L) for each revised problem before syncing.\n\nClick OK to continue with sync.",
     ui.ButtonSet.OK_CANCEL
   );
 
