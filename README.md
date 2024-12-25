@@ -1,6 +1,3 @@
-# ADSRevisionSheet
-Google Excel AppScript code to enable revisions in DSA sheet. 
-
 # ADS Revision Sheet Documentation
 
 A Google Sheets-based system for managing and tracking Data Structures & Algorithms (DSA) problem-solving practice with automated revision scheduling and performance tracking.
@@ -15,11 +12,13 @@ A Google Sheets-based system for managing and tracking Data Structures & Algorit
 ## Setup Guide
 
 ### 1. Create a Copy
-1. Open the template sheet (link to be added)
+1. Open the template [sheet](https://docs.google.com/spreadsheets/d/1L0B544Bko33Iss_IiUfdDo1mCkOFakryV3Jye2hrdtA/edit?usp=sharing)
 2. Create a copy by going to File > Make a copy
 3. Rename it as desired
 
-[Screenshot: Making a copy of the sheet]
+<img width="1512" alt="Screenshot 2024-12-26 at 2 21 42 AM" src="https://github.com/user-attachments/assets/d8625a97-5e38-4c27-b793-f436a25eda98" />
+<img width="1512" alt="Screenshot 2024-12-26 at 2 22 31 AM" src="https://github.com/user-attachments/assets/c17b3320-a09f-4f56-b37a-fdb9757cc149" />
+
 
 ### 2. Enable App Script
 1. Go to Extensions > Apps Script
@@ -30,7 +29,9 @@ A Google Sheets-based system for managing and tracking Data Structures & Algorit
    - ScoreUpdatingTrigger.gs
    - AdsShinFeats.gs
 
-[Screenshot: Opening Apps Script]
+<img width="1512" alt="Screenshot 2024-12-26 at 2 23 22 AM" src="https://github.com/user-attachments/assets/f8f1aeb9-3c57-4555-8fd8-860495e8a78c" />
+<img width="1512" alt="Screenshot 2024-12-26 at 2 24 02 AM" src="https://github.com/user-attachments/assets/2df28bbd-93ba-4c3b-bfde-e4765f41888f" />
+
 
 ### 3. Set Up Triggers
 You need to set up two time-based triggers:
