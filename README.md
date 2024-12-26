@@ -97,13 +97,14 @@ Main sheet for tracking all solved problems with columns for:
 - **Usage Steps**:
   - Enter problem details in the respective columns.
   - Change the `START` to `STOP`, so that the timer can start.
-  - After solving the problem change STOP to START.
-  - The score gets updated because of the updateScore trigger previously.
+  - After solving the problem change `STOP` to `START`.
+  - The score gets updated because of the `updateScore` trigger previously.
   - Make sure to update the tags after solving each problem.
   - Also add the time complexities if you want to track the possible solutions.
   - Refer to the sample entries.
 
-[Screenshot: Solved Problems sheet layout]
+<img width="1511" alt="Screenshot 2024-12-26 at 10 54 31 PM" src="https://github.com/user-attachments/assets/2132e99e-384b-407a-993b-ac88ea7d20c6" />
+
 
 ### 2. Revision Sheet
 
@@ -111,8 +112,9 @@ Generated sheet for active revision sessions containing:
 
 - Selected problems for revision
 - Timer controls
-- Performance tracking
 - Tag updates
+- Hint button to see hints if you are stuck. Hints are just notes previously added on the main sheet.
+- Rest of the layouts are similar to the main sheet.
 
 - **Purpose**: Manage active revision sessions.
 - **Usage Steps**:
@@ -125,11 +127,14 @@ Generated sheet for active revision sessions containing:
     - Click the `End Revision` button to finalize the session.
     - Review and update tags for each problem before syncing to the "Solved Problems" sheet.
     - Confirm that all required fields (e.g., time taken, last solved date) are filled out.
+    - Once ended the data gets synced back to the main sheet with revisions counts and solutions updated.
   - **Clear Active Revision**:
     - Click the `Clear Active Revision` button to remove all data from the Revision sheet while keeping the headers intact.
     - This action is useful for starting a new revision session without residual data.
 
-[Screenshot: Revision sheet layout]
+<img width="910" alt="Screenshot 2024-12-26 at 10 56 18 PM" src="https://github.com/user-attachments/assets/5b0463ea-0435-4de0-b3cc-33e735c02239" />
+<img width="1499" alt="Screenshot 2024-12-26 at 10 56 48 PM" src="https://github.com/user-attachments/assets/f5ad598a-4eb1-4a39-8a91-d2179e96af5f" />
+
 
 ### 3. Topics Sheet
 
@@ -138,8 +143,10 @@ Manages all available tags/topics with:
 - Topic names
 - Own Tags filter
 - Referred Tags filter
+- Filteting mechanism is discussed in the features below. ([here](#3-tag-management))
 
-[Screenshot: Topics sheet layout]
+<img width="1021" alt="Screenshot 2024-12-26 at 10 58 18 PM" src="https://github.com/user-attachments/assets/dddc4739-692c-443b-9b72-b4af6fe041d3" />
+
 
 ### 4. Revision History Sheet
 
@@ -153,7 +160,8 @@ Automatically maintains revision session records including:
 - Topics covered
 - Difficulty distribution
 
-[Screenshot: Revision History sheet layout]
+<img width="1468" alt="Screenshot 2024-12-26 at 11 01 31 PM" src="https://github.com/user-attachments/assets/1f3e2c81-8eff-4a2f-8266-f54627309142" />
+
 
 ### 5. RevisionConfig Sheet
 
@@ -163,7 +171,8 @@ The **RevisionConfig Sheet** contains configurable parameters that allow users t
 - **Scoring Weights**: Users can adjust the weights assigned to different scoring factors, allowing for a personalized scoring system that reflects their learning goals.
 - **Other Customizable Settings**
 
-[Screenshot: RevisionConfig sheet layout]
+<img width="569" alt="Screenshot 2024-12-26 at 11 01 58 PM" src="https://github.com/user-attachments/assets/c13490cd-8095-4c6f-8b0e-843074b917ba" />
+
 
 ## Features
 
@@ -197,7 +206,7 @@ The **RevisionConfig Sheet** contains configurable parameters that allow users t
 
 ### 4. Score Calculation
 
-Score calculation happens based on the updateScores trigger set previously.
+Score calculation happens based on the `updateScores` trigger set previously.
 
 - Dynamic scoring system based on:
   - Days since last solved
