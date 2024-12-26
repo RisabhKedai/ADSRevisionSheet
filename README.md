@@ -20,7 +20,7 @@ A Google Sheets-based system for managing and tracking Data Structures & Algorit
 3. Rename it as desired
    <img width="1512" alt="Screenshot 2024-12-26 at 2 22 31 AM" src="https://github.com/user-attachments/assets/c17b3320-a09f-4f56-b37a-fdb9757cc149" />
 
-### 2. Enable App Script
+### 2. Enable Apps Script
 
 1. Go to Extensions > Apps Script
 2. This will open the Apps Script editor in a new tab
@@ -38,11 +38,13 @@ You need to set up two time-based triggers:
 
 #### Timer Update Trigger
 
-1. In Apps Script, go to Triggers (clock icon on left sidebar)
-   <img width="745" alt="Screenshot 2024-12-26 at 9 15 16 PM" src="https://github.com/user-attachments/assets/62078d82-d4e5-4802-ac54-8e181b9e5804" />
+1. In Apps Script, go to Triggers (clock icon on the left sidebar)
+   
+<img width="745" alt="Screenshot 2024-12-26 at 9 15 16 PM" src="https://github.com/user-attachments/assets/62078d82-d4e5-4802-ac54-8e181b9e5804" />
 
 2. Click '+ Add Trigger'
-   <img width="745" alt="Screenshot 2024-12-26 at 9 16 12 PM" src="https://github.com/user-attachments/assets/990b3f17-9016-47e1-9bc3-2ebebffa48de" />
+
+<img width="745" alt="Screenshot 2024-12-26 at 9 16 12 PM" src="https://github.com/user-attachments/assets/990b3f17-9016-47e1-9bc3-2ebebffa48de" />
 
 3. Configure as follows:
    - Choose function to run: `updateTimers`
@@ -50,13 +52,16 @@ You need to set up two time-based triggers:
    - Select event source: Time-driven
    - Select type of time: Minutes timer
    - Select interval: Every minute
-   - Click on `Save` button
+   - Click on the `Save` button
 
-   <img width="886" alt="Screenshot 2024-12-26 at 9 18 58 PM" src="https://github.com/user-attachments/assets/f8431e8a-c36b-4889-b56e-88ba132371e6" />
+<img width="886" alt="Screenshot 2024-12-26 at 9 18 58 PM" src="https://github.com/user-attachments/assets/f8431e8a-c36b-4889-b56e-88ba132371e6" />
 
-   - You will get a popup asking for permission to run the trigger, as follows : 
+   - You will get a popup asking for permission to run the trigger, as follows: 
+   
    <img width="886" alt="Screenshot 2024-12-26 at 9 21 08 PM" src="https://github.com/user-attachments/assets/a0ae9892-4102-462e-8f16-e015615ac248" />
+   
    - Click on Allow. This will allow the trigger to keep running in the background. This trigger updates the timers visible on the sheet. 
+   
    <img width="886" alt="Screenshot 2024-12-26 at 9 21 31 PM" src="https://github.com/user-attachments/assets/50cb3d54-c6c6-45c4-a86e-6cd65cdc26d3" />
 
 
@@ -68,11 +73,11 @@ You need to set up two time-based triggers:
    - Choose which deployment: Head
    - Select event source: Time-driven
    - Select type of time: Day timer
-   - Select time of day: 3am to 4am
+   - Select time of day: 3 AM to 4 AM
    - Click `Save`
 <img width="886" alt="Screenshot 2024-12-26 at 9 23 59 PM" src="https://github.com/user-attachments/assets/17eb4a0f-526f-489a-8663-7f35e6baa950" />
 
-You might not be asked for permissions now. As the project already has them.
+You might not be asked for permissions now, as the project already has them.
    
 
 ## Sheet Structure
@@ -184,7 +189,7 @@ Configurable parameters for:
 
 ### Scoring Weights
 
-In RevisionConfig sheet, you can adjust:
+In the RevisionConfig sheet, you can adjust:
 
 - Last_Solved weight
 - Difficulty weight
@@ -206,17 +211,17 @@ Configurable parameters include:
 
 1. Triggers not working
 
-   - Check if Apps Script has necessary permissions
+   - Check if Apps Script has the necessary permissions
    - Verify trigger configurations
    - Check execution logs in Apps Script
 
 2. Timer issues
 
    - Ensure proper column mapping
-   - Check if time format is correct
+   - Check if the time format is correct
    - Verify trigger permissions
 
 3. Tag filtering problems
-   - Check tag format in Topics sheet
+   - Check tag format in the Topics sheet
    - Verify tag column mappings
    - Clear filters and try again
