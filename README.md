@@ -30,7 +30,7 @@ A Google Sheets-based system for managing and tracking Data Structures & Algorit
    - TimeUpdatingTrigger.gs
    - ScoreUpdatingTrigger.gs
    - AdsShinFeats.gs
-<img width="1512" alt="Screenshot 2024-12-26 at 2 24 02 AM" src="https://github.com/user-attachments/assets/2df28bbd-93ba-4c3b-bfde-e4765f41888f" />
+     <img width="1512" alt="Screenshot 2024-12-26 at 2 24 02 AM" src="https://github.com/user-attachments/assets/2df28bbd-93ba-4c3b-bfde-e4765f41888f" />
 
 ### 3. Set Up Triggers
 
@@ -39,7 +39,7 @@ You need to set up two time-based triggers:
 #### Timer Update Trigger
 
 1. In Apps Script, go to Triggers (clock icon on the left sidebar)
-   
+
 <img width="745" alt="Screenshot 2024-12-26 at 9 15 16 PM" src="https://github.com/user-attachments/assets/62078d82-d4e5-4802-ac54-8e181b9e5804" />
 
 2. Click '+ Add Trigger'
@@ -56,14 +56,13 @@ You need to set up two time-based triggers:
 
 <img width="886" alt="Screenshot 2024-12-26 at 9 18 58 PM" src="https://github.com/user-attachments/assets/f8431e8a-c36b-4889-b56e-88ba132371e6" />
 
-   - You will get a popup asking for permission to run the trigger, as follows: 
-   
+- You will get a popup asking for permission to run the trigger, as follows:
+
    <img width="886" alt="Screenshot 2024-12-26 at 9 21 08 PM" src="https://github.com/user-attachments/assets/a0ae9892-4102-462e-8f16-e015615ac248" />
    
    - Click on Allow. This will allow the trigger to keep running in the background. This trigger updates the timers visible on the sheet. 
    
    <img width="886" alt="Screenshot 2024-12-26 at 9 21 31 PM" src="https://github.com/user-attachments/assets/50cb3d54-c6c6-45c4-a86e-6cd65cdc26d3" />
-
 
 #### Score Update Trigger
 
@@ -75,10 +74,9 @@ You need to set up two time-based triggers:
    - Select type of time: Day timer
    - Select time of day: 3 AM to 4 AM
    - Click `Save`
-<img width="886" alt="Screenshot 2024-12-26 at 9 23 59 PM" src="https://github.com/user-attachments/assets/17eb4a0f-526f-489a-8663-7f35e6baa950" />
+     <img width="886" alt="Screenshot 2024-12-26 at 9 23 59 PM" src="https://github.com/user-attachments/assets/17eb4a0f-526f-489a-8663-7f35e6baa950" />
 
 You might not be asked for permissions now, as the project already has them.
-   
 
 ## Sheet Structure
 
@@ -95,6 +93,16 @@ Main sheet for tracking all solved problems with columns for:
 - Tags (Own & Referred)
 - Score (automatically calculated)
 
+- **Purpose**: Track all solved problems.
+- **Usage Steps**:
+  - Enter problem details in the respective columns.
+  - Change the `START` to `STOP`, so that the timer can start.
+  - After solving the problem change STOP to START.
+  - The score gets updated because of the updateScore trigger previously.
+  - Make sure to update the tags after solving each problem.
+  - Also add the time complexities if you want to track the possible solutions.
+  - Refer to the sample entries.
+
 [Screenshot: Solved Problems sheet layout]
 
 ### 2. Revision Sheet
@@ -105,6 +113,21 @@ Generated sheet for active revision sessions containing:
 - Timer controls
 - Performance tracking
 - Tag updates
+
+- **Purpose**: Manage active revision sessions.
+- **Usage Steps**:
+  - Select problems for revision.
+  - Use timer controls to track time spent on each problem.
+  - **Generate Revision**:
+    - Click the "Generate Revision" button under the `Revision` menu to automatically select and load problems into the Revision sheet based on configured criteria.
+    - Ensure the "Solved Problems" sheet has valid data and scores before generating.
+  - **End Revision**:
+    - Click the `End Revision` button to finalize the session.
+    - Review and update tags for each problem before syncing to the "Solved Problems" sheet.
+    - Confirm that all required fields (e.g., time taken, last solved date) are filled out.
+  - **Clear Active Revision**:
+    - Click the `Clear Active Revision` button to remove all data from the Revision sheet while keeping the headers intact.
+    - This action is useful for starting a new revision session without residual data.
 
 [Screenshot: Revision sheet layout]
 
@@ -134,11 +157,11 @@ Automatically maintains revision session records including:
 
 ### 5. RevisionConfig Sheet
 
-Configurable parameters for:
+The **RevisionConfig Sheet** contains configurable parameters that allow users to customize their generated revision, including:
 
-- Number of problems per revision
-- Scoring weights
-- Other customizable settings
+- **Number of Problems per Revision**: Users can set how many problems they want to tackle in each revision session, tailoring the workload to their preferences.
+- **Scoring Weights**: Users can adjust the weights assigned to different scoring factors, allowing for a personalized scoring system that reflects their learning goals.
+- **Other Customizable Settings**
 
 [Screenshot: RevisionConfig sheet layout]
 
@@ -149,7 +172,6 @@ Configurable parameters for:
 - Start/Stop timer for each problem
 - Automatic time tracking
 - Time format: HH:MM:SS
-  Reference:
 
 ### 2. Revision Generation
 
@@ -159,16 +181,23 @@ Configurable parameters for:
   - Number of revisions
   - Problem importance
   - Solve time
-    Reference:
 
 ### 3. Tag Management
 
 - Dual tag system (Own Tags & Referred Tags)
 - Tag-based filtering
 - Automatic tag conflict resolution
-  Reference:
+- **Filter Mechanism**:
+  - Users can filter problems based on selected tags from the "Topics" sheet.
+  - When a checkbox for a tag is selected, only the problems associated with that tag will be displayed in the "Solved Problems" sheet.
+  - This allows for focused revision sessions based on specific topics or tags.
+- **Tag Definitions**:
+  - **Own Tags**: Approaches or strategies that the user has developed independently while solving problems.
+  - **Referred Tags**: Approaches or strategies that the user has found by checking editorial solutions or external resources.
 
 ### 4. Score Calculation
+
+Score calculation happens based on the updateScores trigger set previously.
 
 - Dynamic scoring system based on:
   - Days since last solved
@@ -176,14 +205,12 @@ Configurable parameters for:
   - Number of revisions
   - Important flag
   - Solve time
-    Reference:
 
 ### 5. Revision History Tracking
 
 - Comprehensive session statistics
 - Performance metrics
 - Topic coverage analysis
-  Reference:
 
 ## Configuration
 
@@ -197,7 +224,7 @@ In the RevisionConfig sheet, you can adjust:
 - Important_Bonus
 - Solve_time weight
 
-### Revision Settings
+### Other Settings
 
 Configurable parameters include:
 
